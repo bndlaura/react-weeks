@@ -1,11 +1,11 @@
 import movies from "../data/movies.json";
 import MovieList from "../components/MovieList/MovieList.jsx";
-import SearchBar from "../components/SearchBar/SearchBar.jsx";
+import SearchFilters from "../components/SearchFilters/SearchFilters.jsx";
 
 function Home() {
   return (
     <div className="home">
-      <SearchBar />
+      <SearchFilters />
       <MovieList movies={movies} />
     </div>
    
