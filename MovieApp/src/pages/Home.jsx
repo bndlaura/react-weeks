@@ -1,9 +1,10 @@
+import movies from "../data/movies.json";
+import MovieList from "../components/MovieList/MovieList.jsx";
 
-
-export default function Home() {
-    return (
-        <div className="home">
-            <h1>Welcome to the Home Page</h1>
-        </div>
-    )
+function Home() {
+  return (
+    <MovieList movies={movies} />
+  );
 }
+
+export default Home;
