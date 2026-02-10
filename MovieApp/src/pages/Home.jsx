@@ -1,9 +1,14 @@
 import movies from "../data/movies.json";
 import MovieList from "../components/MovieList/MovieList.jsx";
+import SearchBar from "../components/SearchBar/SearchBar.jsx";
 
 function Home() {
   return (
-    <MovieList movies={movies} />
+    <div className="home">
+      <SearchBar />
+      <MovieList movies={movies} />
+    </div>
+   
   );
 }
 

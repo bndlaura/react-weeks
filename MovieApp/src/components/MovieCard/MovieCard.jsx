@@ -11,7 +11,7 @@ function MovieCard({ movie }) {
     };
 
   return (
-    <div className="movie-card">
+    <div className="movie-card" id={`${movie.id}`}>
       <div className="movie-image">
         <img src={`assets/images/${movie.image}`} alt={movie.title} />
       </div>
