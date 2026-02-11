@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import movies from "../data/movies.json";
 import MovieList from "../components/MovieList/MovieList.jsx";
 import SearchFilters from "../components/SearchFilters/SearchFilters.jsx";
@@ -8,6 +8,25 @@ function Home() {
   const [genre, setGenre] = useState("");
   const [rating, setRating] = useState("");
   const [sort, setSort] = useState("none");
+
+  const [watchlist, setWatchlist] = useState(() => {
+    const saved = localStorage.getItem("watchlist");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+  }, [watchlist]);
+
+  function toggleWatchlist(movie) {
+  const exists = watchlist.some((m) => m.id === movie.id);
+
+  if (exists) {
+    setWatchlist(watchlist.filter((m) => m.id !== movie.id));
+  } else {
+    setWatchlist([...watchlist, movie]);
+  }
+}
 
   const filteredMovies = movies.filter((movie) => {
     const matchesSearch = movie.title.toLowerCase().includes(searchMovie.toLowerCase()) ;
@@ -39,7 +58,11 @@ function Home() {
       {filteredMovies.length === 0 ? (
         <p className="no-results">No movies found matching your criteria.</p>
       ) : (
-        <MovieList movies={filteredMovies} />
+        <MovieList 
+        movies={filteredMovies} 
+        watchlist={watchlist} 
+        toggleWatchlist={toggleWatchlist} 
+        />
       )}
     </div>
   );

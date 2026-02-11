@@ -1,8 +1,6 @@
-import { useState } from "react";
 import "./MovieCard.css";
 
-function MovieCard({ movie }) {
-    const [added, setAdded] = useState(false);
+function MovieCard({ movie, isAdded, toggleWatchlist }) {
     const getRatingColor = (rating) => { 
         const r = parseFloat(rating); 
         if (r >= 8) return "rating-green"; 
@@ -26,11 +24,13 @@ function MovieCard({ movie }) {
         </div>
       </div>
 
-       <button className={`watchlist-btn ${added ? "added" : ""}`} 
-       onClick={() => setAdded(!added)}
+       <button className={`watchlist-btn ${isAdded ? "added" : ""}`} 
+       onClick={() => {
+        toggleWatchlist(movie);
+       }}
        >
         <span className="circle"></span>
-        <span className="label">{added ? "In Watchlist" : "Add to Watchlist"}</span>
+        <span className="label">{isAdded ? "In Watchlist" : "Add to Watchlist"}</span>
       </button>
     </div>
   );
