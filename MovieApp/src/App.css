@@ -9,6 +9,11 @@
   width: 100%;
 }
 
+.watchlist-page{
+  margin: 100px auto;
+  width: 100%;
+}
+
 .no-results {
   text-align: center;
   color: #ccc;
