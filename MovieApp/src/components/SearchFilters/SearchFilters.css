@@ -66,6 +66,11 @@
   color: #000;
 }
 
+.sort-btn:active {
+  background: var(--active-color);
+  color: #000;
+}
+
 @media (max-width: 600px) {
   .filters-row {
     flex-direction: column;
