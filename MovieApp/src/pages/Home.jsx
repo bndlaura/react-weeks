@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useWatchlist } from "../hooks/useWatchlist";
 import movies from "../data/movies.json";
 import MovieList from "../components/MovieList/MovieList.jsx";
 import SearchFilters from "../components/SearchFilters/SearchFilters.jsx";
@@ -14,17 +15,17 @@ function Home() {
   const [rating, setRating] = useState("");
   const [sort, setSort] = useState("none");
 
-  const [watchlist, setWatchlist] = useState(() => {
-    const saved = localStorage.getItem("watchlist");
-    return saved ? JSON.parse(saved) : [];
-  });
+  // Custom hook for watchlist management
+  const { watchlist, toggleWatchlist } = useWatchlist();
 
+  // Simulate loading delay
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 500);
     }, []);
 
+  // Error handling for missing movies data
   useEffect(() => {
     try{
       if(!movies || movies.length === 0) {
@@ -34,20 +35,6 @@ function Home() {
       setError(err.message);
     }
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem("watchlist", JSON.stringify(watchlist));
-  }, [watchlist]);
-
-  function toggleWatchlist(movie) {
-  const exists = watchlist.some((m) => m.id === movie.id);
-
-  if (exists) {
-    setWatchlist(watchlist.filter((m) => m.id !== movie.id));
-  } else {
-    setWatchlist([...watchlist, movie]);
-  }
-}
 
   if (loading) {
     return <p className="loading">Loading movies...</p>;

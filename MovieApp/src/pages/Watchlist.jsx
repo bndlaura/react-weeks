@@ -1,25 +1,9 @@
-import { useState } from "react";
+import { useWatchlist } from "../hooks/useWatchlist";
 import MovieList from "../components/MovieList/MovieList";
 
 function Watchlist() {
-  const [watchlist, setWatchlist] = useState(() => {
-    return JSON.parse(localStorage.getItem("watchlist")) || [];
-  });
-
-  function toggleWatchlist(movie) {
-    const exists = watchlist.some((m) => m.id === movie.id);
-
-    let updated;
-    if (exists) {
-      updated = watchlist.filter((m) => m.id !== movie.id);
-    } else {
-      updated = [...watchlist, movie];
-    }
-
-    setWatchlist(updated);
-    localStorage.setItem("watchlist", JSON.stringify(updated));
-  }
-
+  const { watchlist, toggleWatchlist } = useWatchlist();
+ 
   return (
     <div className="watchlist-page">
  
