@@ -1,6 +1,6 @@
 import "./MovieCard.css";
 
-function MovieCard({ movie, isAdded, toggleWatchlist }) {
+function MovieCard({ movie, isAdded, toggleWatchlist, setSelectedMovie }) {
     const getRatingColor = (rating) => { 
         const r = parseFloat(rating); 
         if (r >= 8) return "rating-green"; 
@@ -9,7 +9,7 @@ function MovieCard({ movie, isAdded, toggleWatchlist }) {
     };
 
   return (
-    <div className="movie-card" id={`${movie.id}`}>
+    <div className="movie-card" id={`${movie.id}`} onClick={() => setSelectedMovie(movie)}>
       <div className="movie-image">
         <img src={`assets/images/${movie.image}`} alt={movie.title} />
       </div>

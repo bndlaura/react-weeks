@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import movies from "../data/movies.json";
 import MovieList from "../components/MovieList/MovieList.jsx";
 import SearchFilters from "../components/SearchFilters/SearchFilters.jsx";
+import MovieModal from "../components/MovieModal/MovieModal.jsx";
 
 function Home() {
+  const [selectedMovie, setSelectedMovie] = useState(null);
   const [searchMovie, setSearchMovie] = useState("");
   const [genre, setGenre] = useState("");
   const [rating, setRating] = useState("");
@@ -62,6 +64,15 @@ function Home() {
         movies={filteredMovies} 
         watchlist={watchlist} 
         toggleWatchlist={toggleWatchlist} 
+        setSelectedMovie={setSelectedMovie}
+        />
+      )}
+       {selectedMovie && (
+        <MovieModal 
+        movie={selectedMovie}
+        isAdded={watchlist.some(m => m.id === selectedMovie.id)}
+        toggleWatchlist={toggleWatchlist}
+        onClose={() => setSelectedMovie(null)}
         />
       )}
     </div>
