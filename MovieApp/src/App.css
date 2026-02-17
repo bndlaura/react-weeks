@@ -21,6 +21,32 @@
   margin-top: 40px;
 }
 
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: #ffffff;
+  background: #333;
+  padding: 20px 40px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.error {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
+  color: #fff;
+  background: #e74c3c;
+  padding: 20px 40px;
+  border-radius: 10px;
+  text-align: center;
+}
+
 @media (max-width: 600px) {
   .home {
     margin: 150px auto;

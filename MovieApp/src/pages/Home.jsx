@@ -5,6 +5,9 @@ import SearchFilters from "../components/SearchFilters/SearchFilters.jsx";
 import MovieModal from "../components/MovieModal/MovieModal.jsx";
 
 function Home() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [searchMovie, setSearchMovie] = useState("");
   const [genre, setGenre] = useState("");
@@ -15,6 +18,22 @@ function Home() {
     const saved = localStorage.getItem("watchlist");
     return saved ? JSON.parse(saved) : [];
   });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    }, []);
+
+  useEffect(() => {
+    try{
+      if(!movies || movies.length === 0) {
+        throw new Error("No movies found");
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
@@ -29,6 +48,14 @@ function Home() {
     setWatchlist([...watchlist, movie]);
   }
 }
+
+  if (loading) {
+    return <p className="loading">Loading movies...</p>;
+  }
+
+  if (error) {
+    return <p className="error">{error}</p>;
+  }
 
   const filteredMovies = movies.filter((movie) => {
     const matchesSearch = movie.title.toLowerCase().includes(searchMovie.toLowerCase()) ;
