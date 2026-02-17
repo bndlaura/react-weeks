@@ -8,7 +8,7 @@ function MovieModal({ movie, isAdded, toggleWatchlist, onClose }) {
         id={`${movie.id}`}
         onClick={(e) => e.stopPropagation()}>
         <div className="modal-movie-image">
-          <img src={`assets/images/${movie.image}`} alt={movie.title} />
+          <img src={`/assets/images/${movie.image}`} alt={movie.title} />
         </div>
 
         <div className="modal-movie-info">

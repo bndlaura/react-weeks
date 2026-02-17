@@ -5,7 +5,20 @@ import MovieList from "../components/MovieList/MovieList.jsx";
 import SearchFilters from "../components/SearchFilters/SearchFilters.jsx";
 import MovieModal from "../components/MovieModal/MovieModal.jsx";
 
+import { useParams } from "react-router-dom";
+
 function Home() {
+  const { id } = useParams();
+  // Load selected movie based on URL parameter
+  useEffect(() => {
+    if (id) {
+      const movie = movies.find(m => m.id === parseInt(id));
+      if (movie) {
+        setSelectedMovie(movie);
+      }
+    }
+  }, [id]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
