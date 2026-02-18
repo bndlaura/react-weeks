@@ -1,53 +1,39 @@
-import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { useWatchlist } from "../hooks/useWatchlist";
+import { useMovieFilters } from "../hooks/useMovieFilters";
+import { useLoadMovies } from "../hooks/useLoadMovies";
 import movies from "../data/movies.json";
 import MovieList from "../components/MovieList/MovieList.jsx";
 import SearchFilters from "../components/SearchFilters/SearchFilters.jsx";
 import MovieModal from "../components/MovieModal/MovieModal.jsx";
 
-import { useParams } from "react-router-dom";
-
 function Home() {
   const { id } = useParams();
-  // Load selected movie based on URL parameter
-  useEffect(() => {
-    if (id) {
-      const movie = movies.find(m => m.id === parseInt(id));
-      if (movie) {
-        setSelectedMovie(movie);
-      }
-    }
-  }, [id]);
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [searchMovie, setSearchMovie] = useState("");
-  const [genre, setGenre] = useState("");
-  const [rating, setRating] = useState("");
-  const [sort, setSort] = useState("none");
+  // Custom hook for loading movies with error handling
+  const { loading, error } = useLoadMovies(movies);
+ 
+  // Custom hook for managing filters and syncing with URL
+  const {
+  searchMovie,
+  genre,
+  rating,
+  sort,
+  setSearchMovie,
+  setGenre,
+  setRating,
+  setSort
+} = useMovieFilters();
 
   // Custom hook for watchlist management
   const { watchlist, toggleWatchlist } = useWatchlist();
 
-  // Simulate loading delay
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
-    }, []);
-
-  // Error handling for missing movies data
-  useEffect(() => {
-    try{
-      if(!movies || movies.length === 0) {
-        throw new Error("No movies found");
-      }
-    } catch (err) {
-      setError(err.message);
-    }
-  }, []);
+  // State for selected movie in modal
+  const [selectedMovie, setSelectedMovie] = useState(() => {
+    if (!id) return null;
+    return movies.find(m => m.id === parseInt(id)) || null;
+  });
 
   if (loading) {
     return <p className="loading">Loading movies...</p>;
@@ -57,6 +43,7 @@ function Home() {
     return <p className="error">{error}</p>;
   }
 
+  // Filter and sort movies based on current filters
   const filteredMovies = movies.filter((movie) => {
     const matchesSearch = movie.title.toLowerCase().includes(searchMovie.toLowerCase()) ;
     const matchesGenre = genre ? movie.genre.toLowerCase() === genre.toLowerCase() : true;
