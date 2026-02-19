@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useMemo, useCallback } from "react"; 
 import { useState } from "react";
 import { useWatchlist } from "../hooks/useWatchlist";
 import { useMovieFilters } from "../hooks/useMovieFilters";
@@ -7,6 +8,7 @@ import movies from "../data/movies.json";
 import MovieList from "../components/MovieList/MovieList.jsx";
 import SearchFilters from "../components/SearchFilters/SearchFilters.jsx";
 import MovieModal from "../components/MovieModal/MovieModal.jsx";
+import { filterAndSortMovies } from "../utils/filterMovies";
 
 function Home() {
   const { id } = useParams();
@@ -35,6 +37,18 @@ function Home() {
     return movies.find(m => m.id === parseInt(id)) || null;
   });
 
+  // Memoized function to compute filtered and sorted movies
+  const computeFilteredMovies = useCallback(() => {
+    return filterAndSortMovies(movies, {
+      searchMovie,
+      genre,
+      rating,
+      sort
+    });
+  }, [searchMovie, genre, rating, sort]);
+
+  const filteredMovies = useMemo(() => computeFilteredMovies(), [computeFilteredMovies]);
+
   if (loading) {
     return <p className="loading">Loading movies...</p>;
   }
@@ -42,22 +56,6 @@ function Home() {
   if (error) {
     return <p className="error">{error}</p>;
   }
-
-  // Filter and sort movies based on current filters
-  const filteredMovies = movies.filter((movie) => {
-    const matchesSearch = movie.title.toLowerCase().includes(searchMovie.toLowerCase()) ;
-    const matchesGenre = genre ? movie.genre.toLowerCase() === genre.toLowerCase() : true;
-    const matchesRating =
-      rating === "8" ? movie.rating >= 8 :
-      rating === "5-7" ? movie.rating >= 5 && movie.rating < 8 :
-      rating === "sub5" ? movie.rating < 5 : true;
-    return matchesSearch && matchesGenre && matchesRating;
-  })
-  .sort((a, b) => {
-    if (sort === "asc") return a.title.localeCompare(b.title);
-    if (sort === "desc") return b.title.localeCompare(a.title);
-    return 0;
-  });
 
   return (
     <div className="home">
