@@ -27,7 +27,7 @@ function MovieCard({ movie, isAdded, toggleWatchlist, setSelectedMovie }) {
         </div>
 
         <button className={`watchlist-btn ${isAdded ? "added" : ""}`} 
-        onClick={(e) => {e.stopPropagation(); toggleWatchlist(movie);}}
+        onClick={(e) => {e.stopPropagation(); e.preventDefault(); toggleWatchlist(movie);}}
         >
           <span className="circle"></span>
           <span className="label">{isAdded ? "In Watchlist" : "Add to Watchlist"}</span>
