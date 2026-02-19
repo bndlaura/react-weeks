@@ -1,7 +1,7 @@
 import "./MovieModal.css";
 import { getImagePath } from "../../utils/getImagePath";
 import { getRatingColor } from "../../utils/getRatingColor";
-import { BUTTON_TEXT } from "../constants/text.js";
+import { BUTTON_TEXT } from "../../constants/text.js";
 
 function MovieModal({ movie, isAdded, toggleWatchlist, onClose }) {
 
