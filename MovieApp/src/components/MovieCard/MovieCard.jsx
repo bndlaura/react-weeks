@@ -2,7 +2,7 @@ import "./MovieCard.css";
 import { Link } from "react-router-dom";
 import { getRatingColor } from "../../utils/getRatingColor";
 import { getImagePath } from "../../utils/getImagePath"; 
-import { BUTTON_TEXT } from "../constants/text.js";
+import { BUTTON_TEXT } from "../../constants/text.js";
 
 function MovieCard({ movie, isAdded, toggleWatchlist, setSelectedMovie }) {
 
